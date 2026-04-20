@@ -1,0 +1,46 @@
+[2026-04-20] chore/info-Windra
+问题：提交 info.txt 时误覆盖了 dev 分支中已有的自我介绍内容。
+原因：直接修改文件，未在原有内容基础上追加。
+修复：恢复原有内容，并将 Windra 的自我介绍追加到文件末尾后重新提交。
+
+[2026-04-20] chore/info-晴雨QY
+问题：第一次提交 info.txt 时覆盖原有内容导致合并冲突，合并后再次修改提交发现仍然冲突。
+原因：暂时不知道。
+修复：拒绝本次PR，重新创建分支重新修改内容。
+
+[2026-04-20] Task.1 团队层面问题汇总记录 by HongruiGuo1
+
+1. 分支混用问题
+   - KarasFlowers 在 chore/info-nhy 分支上混入了 band-list.json 的重构 commit,
+     按附录 A 应拆为独立 feature 分支。
+   - 晴雨QY 在 feature/midend 分支上混入了自我介绍 commit,
+     按附录 A 应拆为独立 chore/info 分支。
+   - HongruiGuo1 在首次 fork 的仓库中亦有类似问题,现重开仓库时已规避。
+
+2. 合并commit
+   - PR #11 (KarasFlowers) 和 PR #? (晴雨QY) 在 GitHub 网页端 Resolve conflicts
+     产生 merge commit,无法使用 Rebase and merge 策略合并。
+   - 处理:临时开启 Allow merge commits,使用 Create a merge commit 合入,
+         合并后立即关闭该选项。
+   - 反思:
+     a) 冲突解决应优先在本地 git rebase,而非网页端
+     b) GitHub Resolve conflicts 网页功能与 Rebase and merge 策略不兼容
+     c) 本次两次破例留下了 merge commit 节点,破坏了 dev 的完全线性历史
+     d) Task.2 阶段需在团队前明确此点并规范操作
+
+3. commit message 格式不统一
+   - 附录 A 要求 [type](scope): subject 格式,实际提交中出现以下偏差:
+     - 缺失 [] 包裹:如 chore(info.txt):task1个人介绍
+     - 类型使用不精确:如 chore(band-list.json) 实为 refactor 类型
+     - 完全不符格式:如 Task1 midend.json创建
+   - Task.2 阶段 Maintenance 将在 Code Review 阶段严格把关。
+
+4. 首次 fork 的仓库经历了多次规范偏差(PRE 未完成即开始 Task.1、main 被
+   直接 push、分支被误改写等),经团队讨论后废弃重开,新仓库中上述问题
+   均已避免或记录。作业仓库即当前仓库。
+
+5. info.txt 共享文件的协作冲突
+   - 多人追加 info.txt 触发多次 rebase 冲突,团队通过 Request Changes、
+     本地 rebase 解决、网页端解决(已记录为破例)等方式处理。
+   - 结论:共享文件的修改应在 PR 排队时 pull 最新 dev 再开发,
+          冲突优先本地 git rebase 解决。
