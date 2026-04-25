@@ -49,3 +49,43 @@
 问题：该分支提交的PR请求差点合并到main分支。
 原因：该分支创建的时候是基于main分支的。
 修复：删除该分支，重新基于dev分支创建。
+
+[2026-04-22] Task.2 阶段问题记录 by HongruiGuo1
+
+1. bh-qy 的 Round 1 分支 base 错误
+   - feature/elevator-1 最初基于 origin/main 检出,
+     携带了 Task.1 的 release merge commit (41f0268)。
+   - 处理:经协商关闭原 PR #25,bh-qy 从 dev 重新检出 feature/elevator-1
+     并提交新 PR #26,内容相同但 base 干净。
+   - 反思:Task.2 需明确"所有 feature 分支从 dev 检出,而非 main"。
+
+2. bh-qy 的 Round 2 占位分支 base 错误
+   - feature/emoji-2 同样基于 main 检出,包含 41f0268。
+   - 处理:bh-qy 主动 git reset --hard 到 b0248fc(Round 1 前的 dev),
+     强推远端,恢复正确占位状态。冲突设计未被破坏。
+   - 该处理体现了团队对附录 A 规范的理解,值得肯定。
+
+3. ouhai1223 的 Round 1 PR 仅含 1 个 commit
+   - README Task.2 Round 1 要求"提交两次更改"(先填后改)。
+   - 处理:经 Request Changes,ouhai1223 在 feature/note-1 上补交一次 commit,
+     PR 自动更新后合并。
+
+4. 部分 commit message 仍不符合附录 A 格式
+   - 例如 "ouhai1223的喜爱角色"、"[feat]json.json:第二次修改"、
+     "[feat]model.json:更改username和data" 等,未严格使用
+     [type](scope): subject 格式。
+   - 较 Task.1 阶段已有改善,但仍存在偏差。
+   - 反思:Task 收尾时建议团队成员互相检视 commit message 规范性。
+
+5. note.json username 与 GitHub 用户名不一致
+   - KarasFlowers 在 src/info/note.json 中将 username 写为 "KKKara",
+     与其 GitHub 用户名不符。
+   - 影响轻微,内容已合入,不再修正,记录为团队规范偏差。
+
+6. Task.2 整体协作进步
+   相比 Task.1 阶段,Task.2 阶段:
+   - 没有发生 info.txt 类型的覆盖事件
+   - 没有人使用 GitHub 网页端 Resolve conflicts(避免了 merge commit 污染)
+   - 所有冲突均通过本地 git rebase 解决
+   - dev 分支保持线性历史
+   团队对附录 A 规范的理解有明显提升。
